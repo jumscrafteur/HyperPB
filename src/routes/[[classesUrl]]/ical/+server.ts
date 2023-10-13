@@ -10,10 +10,6 @@ export const GET: RequestHandler = ({ setHeaders, params }) => {
         "content-type": "text/calendar"
     })
 
-    setHeaders({
-        "content-type": "text/html"
-    })
-
     const classes = classesFromParams(params)
 
     const START_OF_WEEK = DateTime.now().startOf("week")
