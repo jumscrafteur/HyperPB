@@ -34,7 +34,11 @@
 	"type": "module",
 	"dependencies": {
 		"@types/luxon": "^3.3.2",
+		"bits-ui": "^0.5.7",
+		"clsx": "^2.0.0",
 		"luxon": "^3.4.3",
-		"tailwind-merge": "^1.14.0"
+		"radix-icons-svelte": "^1.2.1",
+		"tailwind-merge": "^1.14.0",
+		"tailwind-variants": "^0.1.14"
 	}
 }

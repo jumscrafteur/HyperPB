@@ -1,4 +1,4 @@
-interface classe {
+export interface classe {
     subject:
     "Programming Paradigms" |
     "Programming Languages" |
@@ -15,57 +15,13 @@ interface classe {
     building: "CJ" | "CB" | "AN" | "JA"
     room: number
     type: "Course" | "Seminar" | "Laboratory" | "Project"
-    group: "1211Bsg3" | "1241Bsg1" | "sg2"
+    group: "1211Bsg3" | "1241Bsg1" | "MSEsg2",
+    faculty: "FILS"
 }
 
-// export const classes: classe[] = [
-//     {
-//         subject: "Software Design Techniques",
-//         day: "Monday",
-//         start: 16,
-//         end: 19,
-//         week: "all",
-//         building: "CB",
-//         room: 20,
-//         type: "Course",
-//         // group: "1241"
-//     },
-//     {
-//         subject: "Programming Languages",
-//         day: "Tuesday",
-//         start: 8,
-//         end: 10,
-//         week: "all",
-//         building: "AN",
-//         room: 17,
-//         type: "Course",
-//         // group: "1211B"
-//     },
-//     {
-//         subject: "Software Design Techniques",
-//         day: "Tuesday",
-//         start: 10,
-//         end: 13,
-//         week: "all",
-//         building: "CB",
-//         room: 20,
-//         type: "Course",
-//         // group: "1241"
-//     }
-// ]
+import { writable } from 'svelte/store';
 
-export const classes: classe[] = [
-    {
-        subject: "Programming Paradigms",
-        day: "Wednesday",
-        start: 8,
-        end: 10,
-        week: "all",
-        building: "CJ",
-        room: 205,
-        type: "Laboratory",
-        group: "sg2",
-    },
+export const classesList: classe[] = [
     {
         subject: "Programming Paradigms",
         day: "Friday",
@@ -75,7 +31,20 @@ export const classes: classe[] = [
         building: "CB",
         room: 20,
         type: "Course",
-        group: "sg2"
+        group: "MSEsg2",
+        faculty: "FILS"
+    },
+    {
+        subject: "Programming Paradigms",
+        day: "Friday",
+        start: 18,
+        end: 20,
+        week: "all",
+        building: "CJ",
+        room: 201,
+        type: "Laboratory",
+        group: "MSEsg2",
+        faculty: "FILS"
     },
     {
         subject: "Programming Languages",
@@ -86,7 +55,8 @@ export const classes: classe[] = [
         building: "AN",
         room: 17,
         type: "Course",
-        group: "1211Bsg3"
+        group: "1211Bsg3",
+        faculty: "FILS"
     },
     {
         subject: "Programming Languages",
@@ -97,7 +67,8 @@ export const classes: classe[] = [
         building: "JA",
         room: 1,
         type: "Laboratory",
-        group: "1211Bsg3"
+        group: "1211Bsg3",
+        faculty: "FILS"
     },
     {
         subject: "Programming Languages",
@@ -108,7 +79,8 @@ export const classes: classe[] = [
         building: "JA",
         room: 1,
         type: "Laboratory",
-        group: "1211Bsg3"
+        group: "1211Bsg3",
+        faculty: "FILS"
     },
     {
         subject: "Web and Cloud Applications",
@@ -119,7 +91,8 @@ export const classes: classe[] = [
         building: "CJ",
         room: 201,
         type: "Project",
-        group: "1241Bsg1"
+        group: "1241Bsg1",
+        faculty: "FILS"
     },
     {
         subject: "Romanian languages",
@@ -130,7 +103,8 @@ export const classes: classe[] = [
         building: "AN",
         room: 17,
         type: "Course",
-        group: "1211Bsg3"
+        group: "1211Bsg3",
+        faculty: "FILS"
     },
     {
         subject: "Software Design Techniques",
@@ -141,7 +115,8 @@ export const classes: classe[] = [
         building: "AN",
         room: 24,
         type: "Course",
-        group: "1241Bsg1"
+        group: "1241Bsg1",
+        faculty: "FILS"
     },
     {
         subject: "Software Design Techniques",
@@ -152,7 +127,8 @@ export const classes: classe[] = [
         building: "CB",
         room: 20,
         type: "Course",
-        group: "1241Bsg1"
+        group: "1241Bsg1",
+        faculty: "FILS"
     },
     {
         subject: "Software Design Techniques",
@@ -163,7 +139,8 @@ export const classes: classe[] = [
         building: "CJ",
         room: 201,
         type: "Laboratory",
-        group: "1241Bsg1"
+        group: "1241Bsg1",
+        faculty: "FILS"
     },
     {
         subject: "Software Engineering",
@@ -174,7 +151,8 @@ export const classes: classe[] = [
         building: "CJ",
         room: 205,
         type: "Laboratory",
-        group: "1241Bsg1"
+        group: "1241Bsg1",
+        faculty: "FILS"
     },
     {
         subject: "Software Engineering",
@@ -185,7 +163,8 @@ export const classes: classe[] = [
         building: "CB",
         room: 205,
         type: "Project",
-        group: "1241Bsg1"
+        group: "1241Bsg1",
+        faculty: "FILS"
     },
     {
         subject: "Software Engineering",
@@ -196,7 +175,8 @@ export const classes: classe[] = [
         building: "CB",
         room: 20,
         type: "Course",
-        group: "1241Bsg1"
+        group: "1241Bsg1",
+        faculty: "FILS"
     },
     {
         subject: "Game and interactive simulation systems",
@@ -207,6 +187,25 @@ export const classes: classe[] = [
         building: "CB",
         room: 20,
         type: "Course",
-        group: "sg2"
-    }
+        group: "MSEsg2",
+        faculty: "FILS"
+    },
 ]
+
+export const classesFromParams = (params: { classesUrl: string | undefined }): classe[] => {
+    const urlClassesList = params['classesUrl']?.split(',').map((str) => str.split('~')) || [];
+
+    const urlClasses = classesList.filter((classe) =>
+        urlClassesList.find((el) => el[0] == classe.subject && el[1] == classe.group)
+    );
+
+    return urlClasses
+}
+
+
+
+// export const classes = writable(classesList);
+export const classes = writable<classe[]>([]);
+export const groups = classesList.reduce((set, classe) => set.add(classe.group), new Set())
+export const subjects = classesList.reduce((set, classe) => set.add(classe.subject), new Set())
+export const faculties = classesList.reduce((set, classe) => set.add(classe.faculty), new Set())

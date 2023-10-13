@@ -31,6 +31,7 @@
 		row_span == 1 && 'row-span-1',
 		row_span == 2 && 'row-span-2',
 		row_span == 3 && 'row-span-3',
+		row_span == 13 && 'row-[span_13_/_span_13]',
 
 		col_start == 1 && 'col-start-1',
 		col_start == 2 && 'col-start-2',

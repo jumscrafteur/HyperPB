@@ -1,9 +1,7 @@
+import { classesFromParams } from '$lib/classes';
 import type { RequestHandler } from './$types';
 
-// const { DateTime } = require("luxon");
 import { DateTime } from 'luxon'
-
-import { classes } from '$lib/classes';
 
 const formatForCal = (dt: DateTime) => {
     return dt.toISO()?.split(".")[0].replaceAll("-", "").replaceAll(":", "")
@@ -11,12 +9,17 @@ const formatForCal = (dt: DateTime) => {
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-export const GET: RequestHandler = () => {
+export const GET: RequestHandler = ({ setHeaders, params }) => {
+    setHeaders({
+        "content-type": "text/calendar"
+    })
+
+    const classes = classesFromParams(params)
+
     const START_OF_WEEK = DateTime.now().startOf("week")
 
     const WEEK_NB = (START_OF_WEEK.weekNumber - 39 + START_OF_WEEK.weeksInWeekYear) % START_OF_WEEK.weeksInWeekYear
 
-    console.log(WEEK_NB)
 
     let events = ""
 
@@ -37,7 +40,7 @@ export const GET: RequestHandler = () => {
                 weeks: i
             })
 
-            return old + '\n' + `BEGIN:VEVENT
+            return old + '\r\n' + `BEGIN:VEVENT
 DTSTAMP:20231003T141736Z
 UID:${start.toMillis()}@ical.jumscrafteur.com
 DTSTART;TZID=Europe/Bucharest:${formatForCal(start)}
@@ -45,6 +48,7 @@ DTEND;TZID=Europe/Bucharest:${formatForCal(end)}
 SUMMARY:${newClasse.subject}
 BEGIN:VALARM
 ACTION:DISPLAY
+GEO:37.386013;-122.082932
 DESCRIPTION:${newClasse.subject}
 TRIGGER:-PT10M
 END:VALARM
@@ -58,9 +62,9 @@ END:VEVENT`}, events)
 
     return new Response(String(`BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//ical.marudot.com//iCal Event Maker
-X-WR-CALNAME:teest
-NAME:teest
+PRODID:-//hyperpb.jumscrafteur.com//UPB Schedule
+X-WR-CALNAME:UPB Schedule
+NAME:UPB Schedule
 CALSCALE:GREGORIAN
 BEGIN:VTIMEZONE
 TZID:Europe/Bucharest
@@ -81,7 +85,6 @@ TZOFFSETTO:+0200
 DTSTART:19701025T040000
 RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
-END:VTIMEZONE
-${events}
+END:VTIMEZONE${events}
 END:VCALENDAR`));
 };
