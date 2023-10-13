@@ -12,7 +12,7 @@
 	classes.subscribe((classesList) => {
 		indexedHours = {};
 		totalHourCount = 0;
-		// console.log(indexedHours);
+
 		classesList.forEach((classe) => {
 			const index = classe.start + DAYS.indexOf(classe.day) * 13;
 			const indexedHour = indexedHours[index];
@@ -33,7 +33,7 @@
 </script>
 
 <div
-	class="grid grid-flow-col gap-1 grid-rows-[repeat(14,_minmax(0,_1fr))] grid-cols-[60px,repeat(5,_minmax(0,_1fr))] p-1 h-screen font-mono"
+	class="grid grid-flow-col gap-1 grid-rows-[repeat(14,_minmax(0,_1fr))] grid-cols-[60px,repeat(5,_minmax(100px,_1fr))] p-1 h-screen font-mono md:overflow-x-scroll"
 >
 	<EditPanel />
 	{#each [...Array(13).keys()] as n}

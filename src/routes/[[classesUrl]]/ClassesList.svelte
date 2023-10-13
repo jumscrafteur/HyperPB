@@ -6,7 +6,7 @@
 	import { classes } from '$lib/classes';
 </script>
 
-<Collapsible.Root class="w-[350px] space-y-2" open={true}>
+<Collapsible.Root class="w-full space-y-2" open={true}>
 	<div class="flex items-center justify-between space-x-4 px-4">
 		<h4 class="text-sm font-semibold">Selected classes</h4>
 		<Collapsible.Trigger asChild let:builder>
