@@ -1,4 +1,4 @@
-import { classesFromParams } from "$lib/classes";
+import { classesFromParams, subjects } from "$lib/classes";
 import type { RequestHandler } from "@sveltejs/kit";
 import ical from 'ical-generator';
 import { DateTime } from "luxon";
@@ -6,8 +6,12 @@ import { DateTime } from "luxon";
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 export const GET: RequestHandler = ({ setHeaders, params }) => {
+    // setHeaders({
+    //     "content-type": "text/calendar"
+    // })
+
     setHeaders({
-        "content-type": "text/calendar"
+        "content-type": "text/html"
     })
 
     const classes = classesFromParams(params)
@@ -17,7 +21,7 @@ export const GET: RequestHandler = ({ setHeaders, params }) => {
     const WEEK_NB = (START_OF_WEEK.weekNumber - 39 + START_OF_WEEK.weeksInWeekYear) % START_OF_WEEK.weeksInWeekYear
 
 
-    const calendar = ical({ name: 'UPB Schedule', });
+    const calendar = ical({ name: 'UPB Schedule', timezone: 'Europe/Bucharest' });
 
     for (let i = 0; i < 5; i++) {
         classes.forEach(classe => {
@@ -35,6 +39,9 @@ export const GET: RequestHandler = ({ setHeaders, params }) => {
                 hour: classe.end,
                 weeks: i
             })
+
+            // if (classe.subject == "Web and Cloud Applications")
+            //     console.log(end)
 
             calendar.createEvent({
                 start,
