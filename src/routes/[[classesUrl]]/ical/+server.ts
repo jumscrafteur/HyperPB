@@ -1,4 +1,4 @@
-import { classesFromParams, subjects } from "$lib/classes";
+import { classesFromParams } from "$lib/classes";
 import type { RequestHandler } from "@sveltejs/kit";
 import ical from 'ical-generator';
 import { DateTime } from "luxon";
@@ -16,7 +16,7 @@ export const GET: RequestHandler = ({ setHeaders, params }) => {
 
     const classes = classesFromParams(params)
 
-    const START_OF_WEEK = DateTime.now().startOf("week")
+    const START_OF_WEEK = DateTime.now().setZone('Europe/Bucharest').startOf("week")
 
     const WEEK_NB = (START_OF_WEEK.weekNumber - 39 + START_OF_WEEK.weeksInWeekYear) % START_OF_WEEK.weeksInWeekYear
 
@@ -39,9 +39,6 @@ export const GET: RequestHandler = ({ setHeaders, params }) => {
                 hour: classe.end,
                 weeks: i
             })
-
-            // if (classe.subject == "Web and Cloud Applications")
-            //     console.log(end)
 
             calendar.createEvent({
                 start,
